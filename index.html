@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小说集 - Novel Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            font-weight: 300;
+        }
+        
+        .novels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .novel-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e8e8e8;
+        }
+        
+        .novel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .novel-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .novel-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .novel-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #e8e8e8;
+            color: #95a5a6;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .novels-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .novel-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>小说集</h1>
+            <p class="subtitle">Novel Collection</p>
+        </header>
+        
+        <main>
+            <div class="novels-grid">
+                <div class="novel-card">
+                    <h2 class="novel-title">农场</h2>
+                    <a href="novels/农场.md" class="novel-link">阅读小说</a>
+                </div>
+                
+                <div class="novel-card">
+                    <h2 class="novel-title">房车</h2>
+                    <a href="novels/房车.md" class="novel-link">阅读小说</a>
+                </div>
+                
+                <div class="novel-card">
+                    <h2 class="novel-title">清洗计划</h2>
+                    <a href="novels/清洗计划.md" class="novel-link">阅读小说</a>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>© 2025 Novel Collection | Hosted on GitHub Pages</p>
+        </footer>
+    </div>
+</body>
+</html>

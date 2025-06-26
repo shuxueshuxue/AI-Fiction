@@ -1,0 +1,5 @@
+# Ignore all folders named "-p"
+-p/
+
+# Ignore all files ending with .edtz
+*.edtz
