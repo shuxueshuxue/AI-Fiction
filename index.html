@@ -12,96 +12,334 @@
         }
         
         body {
-            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            background: #0f0c29;
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
         
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
+            position: relative;
+            z-index: 1;
         }
         
         header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         h1 {
-            font-size: 2.5rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-weight: 300;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(240, 147, 251, 0.5)); }
         }
         
         .subtitle {
-            font-size: 1.1rem;
-            color: #7f8c8d;
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
             font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        
+        .world-info {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .world-info:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.05);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            background: linear-gradient(to right, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 50px 0 30px 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .section-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 10px currentColor);
         }
         
         .novels-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin-top: 40px;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            margin-bottom: 50px;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        .empty-state::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
+            border-radius: 50%;
+            opacity: 0.3;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .empty-state p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
         }
         
         .novel-card {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #e8e8e8;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .novel-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #f093fb, #f5576c, #667eea, #f093fb);
+            background-size: 400% 400%;
+            border-radius: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            animation: gradientShift 3s ease infinite;
+            z-index: -1;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .novel-card:hover::before {
+            opacity: 1;
         }
         
         .novel-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         
         .novel-title {
-            font-size: 1.4rem;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-weight: 500;
+            font-size: 1.6rem;
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
         
         .novel-link {
-            display: inline-block;
-            padding: 10px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-decoration: none;
-            border-radius: 25px;
+            border-radius: 30px;
             transition: all 0.3s ease;
             font-weight: 500;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .novel-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .novel-link:hover::before {
+            left: 100%;
         }
         
         .novel-link:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+        
+        .novel-link::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+        
+        .novel-link:hover::after {
+            transform: translateX(5px);
         }
         
         footer {
             text-align: center;
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid #e8e8e8;
-            color: #95a5a6;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+            animation: fadeIn 0.8s ease-out;
         }
         
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .github-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Responsive design */
         @media (max-width: 768px) {
             .container {
-                padding: 20px 15px;
+                padding: 30px 20px;
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
             }
             
             .novels-grid {
@@ -110,7 +348,32 @@
             }
             
             .novel-card {
-                padding: 20px;
+                padding: 25px;
+            }
+            
+            .novel-title {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* Loading animation */
+        .novel-card {
+            animation: cardFadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .novel-card:nth-child(1) { animation-delay: 0.1s; }
+        .novel-card:nth-child(2) { animation-delay: 0.2s; }
+        .novel-card:nth-child(3) { animation-delay: 0.3s; }
+        
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
@@ -120,29 +383,51 @@
         <header>
             <h1>小说集</h1>
             <p class="subtitle">Novel Collection</p>
+            <p class="world-info">
+                These stories all share the same world-building
+            </p>
         </header>
         
         <main>
-            <div class="novels-grid">
-                <div class="novel-card">
-                    <h2 class="novel-title">农场</h2>
-                    <a href="novels/农场.md" class="novel-link">阅读小说</a>
+            <section>
+                <h2 class="section-title">
+                    <span class="section-icon">●</span>
+                    主线故事
+                </h2>
+                <div class="empty-state">
+                    <p>主线故事即将上线，敬请期待...</p>
                 </div>
-                
-                <div class="novel-card">
-                    <h2 class="novel-title">房车</h2>
-                    <a href="novels/房车.md" class="novel-link">阅读小说</a>
+            </section>
+            
+            <section>
+                <h2 class="section-title">
+                    <span class="section-icon">◆</span>
+                    支线故事
+                </h2>
+                <div class="novels-grid">
+                    <div class="novel-card">
+                        <h3 class="novel-title">农场</h3>
+                        <a href="reader.html?novel=农场" class="novel-link">阅读小说</a>
+                    </div>
+                    
+                    <div class="novel-card">
+                        <h3 class="novel-title">房车</h3>
+                        <a href="reader.html?novel=房车" class="novel-link">阅读小说</a>
+                    </div>
+                    
+                    <div class="novel-card">
+                        <h3 class="novel-title">清洗计划</h3>
+                        <a href="reader.html?novel=清洗计划" class="novel-link">阅读小说</a>
+                    </div>
                 </div>
-                
-                <div class="novel-card">
-                    <h2 class="novel-title">清洗计划</h2>
-                    <a href="novels/清洗计划.md" class="novel-link">阅读小说</a>
-                </div>
-            </div>
+            </section>
         </main>
         
         <footer>
             <p>© 2025 Novel Collection | Hosted on GitHub Pages</p>
+            <a href="https://github.com/shuxueshuxue/AI-Fiction" class="github-link" target="_blank">
+                View on GitHub
+            </a>
         </footer>
     </div>
 </body>

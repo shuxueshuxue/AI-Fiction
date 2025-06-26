@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阅读器 - Novel Reader</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-color: #1a1a2e;
+            --surface-color: #16213e;
+            --text-color: #e8e8e8;
+            --accent-color: #667eea;
+            --secondary-color: #764ba2;
+            --border-color: rgba(255,255,255,0.1);
+        }
+        
+        /* Light theme */
+        body.light {
+            --bg-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --text-color: #2c3e50;
+            --accent-color: #667eea;
+            --secondary-color: #764ba2;
+            --border-color: rgba(0,0,0,0.1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface-color);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateX(-5px);
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--border-color);
+            color: var(--text-color);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+        
+        .control-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        /* Main content */
+        .reader-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px 50px;
+            min-height: 100vh;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #e74c3c;
+            font-size: 1.1rem;
+        }
+        
+        /* Article content styling */
+        .article {
+            line-height: 1.8;
+            font-size: 18px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .article h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+        }
+        
+        .article h2 {
+            font-size: 2rem;
+            margin: 40px 0 20px;
+            color: var(--accent-color);
+        }
+        
+        .article h3 {
+            font-size: 1.5rem;
+            margin: 30px 0 15px;
+        }
+        
+        .article p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .article blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        .article code {
+            background: var(--border-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .article pre {
+            background: var(--surface-color);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .article hr {
+            border: none;
+            height: 1px;
+            background: var(--border-color);
+            margin: 40px 0;
+        }
+        
+        .article a {
+            color: var(--accent-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+        
+        .article a:hover {
+            border-bottom-color: var(--accent-color);
+        }
+        
+        /* Font size controls */
+        .font-size-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            background: var(--surface-color);
+            padding: 10px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+            transition: width 0.3s ease;
+            z-index: 1001;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 15px;
+            }
+            
+            .header-title {
+                font-size: 1rem;
+            }
+            
+            .control-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+            
+            .reader-container {
+                padding: 80px 15px 40px;
+            }
+            
+            .article {
+                font-size: 16px;
+            }
+            
+            .article h1 {
+                font-size: 2rem;
+            }
+            
+            .font-size-controls {
+                bottom: 15px;
+                right: 15px;
+                padding: 8px;
+            }
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Selection style */
+        ::selection {
+            background: var(--accent-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <a href="index.html" class="back-btn">
+            <span>←</span>
+            返回
+        </a>
+        <h1 class="header-title" id="headerTitle">加载中...</h1>
+        <div class="controls">
+            <button class="control-btn" id="themeToggle" title="切换主题">
+                <span id="themeIcon">☼</span>
+            </button>
+        </div>
+    </header>
+    
+    <main class="reader-container">
+        <div id="content" class="loading">正在加载小说内容</div>
+    </main>
+    
+    <div class="font-size-controls">
+        <button class="control-btn" id="fontDecrease" title="减小字体">A-</button>
+        <button class="control-btn" id="fontIncrease" title="增大字体">A+</button>
+    </div>
+    
+    <script>
+        // Get novel name from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const novelName = urlParams.get('novel');
+        
+        // Elements
+        const contentEl = document.getElementById('content');
+        const headerTitleEl = document.getElementById('headerTitle');
+        const progressBar = document.getElementById('progressBar');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const fontDecrease = document.getElementById('fontDecrease');
+        const fontIncrease = document.getElementById('fontIncrease');
+        
+        // Theme management
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.classList.toggle('light', savedTheme === 'light');
+        themeIcon.textContent = savedTheme === 'light' ? '☾' : '☼';
+        
+        themeToggle.addEventListener('click', () => {
+            const isLight = document.body.classList.toggle('light');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            themeIcon.textContent = isLight ? '☾' : '☼';
+        });
+        
+        // Font size management
+        let fontSize = parseInt(localStorage.getItem('fontSize') || '18');
+        document.querySelector('.article')?.style.setProperty('font-size', fontSize + 'px');
+        
+        fontDecrease.addEventListener('click', () => {
+            if (fontSize > 14) {
+                fontSize -= 2;
+                localStorage.setItem('fontSize', fontSize);
+                document.querySelector('.article')?.style.setProperty('font-size', fontSize + 'px');
+            }
+        });
+        
+        fontIncrease.addEventListener('click', () => {
+            if (fontSize < 24) {
+                fontSize += 2;
+                localStorage.setItem('fontSize', fontSize);
+                document.querySelector('.article')?.style.setProperty('font-size', fontSize + 'px');
+            }
+        });
+        
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + '%';
+        });
+        
+        // Load novel content
+        async function loadNovel() {
+            if (!novelName) {
+                contentEl.innerHTML = '<div class="error">未指定小说名称</div>';
+                return;
+            }
+            
+            try {
+                headerTitleEl.textContent = novelName;
+                
+                // Fetch the markdown file
+                const response = await fetch(`novels/${novelName}.md`);
+                if (!response.ok) {
+                    throw new Error('小说文件不存在');
+                }
+                
+                const markdown = await response.text();
+                
+                // Parse markdown to HTML
+                const html = marked.parse(markdown);
+                
+                // Display content
+                contentEl.className = 'article';
+                contentEl.innerHTML = html;
+                contentEl.style.fontSize = fontSize + 'px';
+                
+                // Add smooth appearance
+                contentEl.style.opacity = '0';
+                setTimeout(() => {
+                    contentEl.style.transition = 'opacity 0.5s ease';
+                    contentEl.style.opacity = '1';
+                }, 100);
+                
+            } catch (error) {
+                contentEl.className = 'error';
+                contentEl.innerHTML = `
+                    <p>加载失败：${error.message}</p>
+                    <p style="margin-top: 20px;">
+                        <a href="index.html" style="color: var(--accent-color);">返回首页</a>
+                    </p>
+                `;
+            }
+        }
+        
+        // Load novel on page load
+        loadNovel();
+    </script>
+</body>
+</html>
