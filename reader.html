@@ -13,30 +13,30 @@
         }
         
         :root {
-            --bg-color: #1a1a2e;
-            --surface-color: #16213e;
-            --text-color: #e8e8e8;
-            --accent-color: #667eea;
-            --secondary-color: #764ba2;
-            --border-color: rgba(255,255,255,0.1);
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --light-text: #666666;
+            --border-color: #e5e5e5;
+            --hover-color: #000000;
+            --surface-color: #fafafa;
         }
         
-        /* Light theme */
-        body.light {
-            --bg-color: #f8f9fa;
-            --surface-color: #ffffff;
-            --text-color: #2c3e50;
-            --accent-color: #667eea;
-            --secondary-color: #764ba2;
-            --border-color: rgba(0,0,0,0.1);
+        /* Dark theme */
+        body.dark {
+            --bg-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --light-text: #999999;
+            --border-color: #333333;
+            --hover-color: #ffffff;
+            --surface-color: #252525;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
             background: var(--bg-color);
             color: var(--text-color);
             min-height: 100vh;
-            transition: all 0.3s ease;
+            transition: background 0.3s ease, color 0.3s ease;
         }
         
         /* Header */
@@ -45,197 +45,186 @@
             top: 0;
             left: 0;
             right: 0;
-            background: var(--surface-color);
-            backdrop-filter: blur(10px);
+            background: var(--bg-color);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
             padding: 15px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .back-btn {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: var(--border-color);
-            transition: all 0.3s ease;
+            gap: 5px;
         }
         
         .back-btn:hover {
-            background: var(--accent-color);
-            color: white;
-            transform: translateX(-5px);
+            color: var(--hover-color);
         }
         
         .header-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 10px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-color);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         
         .control-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: var(--border-color);
-            color: var(--text-color);
-            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--light-text);
+            border-radius: 4px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 18px;
+            transition: all 0.2s ease;
+            font-size: 16px;
         }
         
         .control-btn:hover {
-            background: var(--accent-color);
-            color: white;
-            transform: scale(1.1);
+            border-color: var(--hover-color);
+            color: var(--hover-color);
         }
         
         /* Main content */
         .reader-container {
-            max-width: 800px;
+            max-width: 680px;
             margin: 0 auto;
-            padding: 100px 20px 50px;
+            padding: 80px 20px 60px;
             min-height: 100vh;
         }
         
         .loading {
             text-align: center;
             padding: 50px;
-            font-size: 1.2rem;
-            color: var(--accent-color);
-        }
-        
-        .loading::after {
-            content: '...';
-            animation: dots 1.5s steps(5, end) infinite;
-        }
-        
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60%, 100% { content: '...'; }
+            color: var(--light-text);
+            font-size: 0.95rem;
         }
         
         .error {
             text-align: center;
             padding: 50px;
-            color: #e74c3c;
-            font-size: 1.1rem;
+            color: var(--light-text);
         }
         
         /* Article content styling */
         .article {
             line-height: 1.8;
             font-size: 18px;
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            color: var(--text-color);
         }
         
         .article h1 {
-            font-size: 2.5rem;
-            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-weight: 300;
+            margin-bottom: 40px;
             text-align: center;
-            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.3;
+            color: var(--text-color);
+            letter-spacing: -0.5px;
         }
         
         .article h2 {
-            font-size: 2rem;
-            margin: 40px 0 20px;
-            color: var(--accent-color);
+            font-size: 1.6rem;
+            font-weight: 400;
+            margin: 50px 0 20px;
+            color: var(--text-color);
         }
         
         .article h3 {
-            font-size: 1.5rem;
-            margin: 30px 0 15px;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin: 40px 0 15px;
+            color: var(--text-color);
         }
         
         .article p {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-align: justify;
         }
         
         .article blockquote {
-            border-left: 4px solid var(--accent-color);
+            border-left: 3px solid var(--border-color);
             padding-left: 20px;
             margin: 30px 0;
-            font-style: italic;
-            color: var(--text-color);
-            opacity: 0.8;
+            color: var(--light-text);
         }
         
         .article code {
-            background: var(--border-color);
+            background: var(--surface-color);
             padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', 'Monaco', monospace;
+            border-radius: 3px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.9em;
         }
         
         .article pre {
             background: var(--surface-color);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 4px;
             overflow-x: auto;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
+            margin: 24px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
         }
         
         .article hr {
             border: none;
             height: 1px;
             background: var(--border-color);
-            margin: 40px 0;
+            margin: 50px 0;
         }
         
         .article a {
-            color: var(--accent-color);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.3s ease;
+            color: var(--text-color);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: opacity 0.2s ease;
         }
         
         .article a:hover {
-            border-bottom-color: var(--accent-color);
+            opacity: 0.7;
         }
         
         /* Font size controls */
-        .font-size-controls {
+        .font-controls {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             display: flex;
-            gap: 10px;
-            background: var(--surface-color);
-            padding: 10px;
-            border-radius: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            backdrop-filter: blur(10px);
+            gap: 8px;
+            background: var(--bg-color);
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .font-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: var(--light-text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+            font-size: 14px;
+        }
+        
+        .font-btn:hover {
+            color: var(--hover-color);
         }
         
         /* Progress bar */
@@ -243,30 +232,31 @@
             position: fixed;
             top: 0;
             left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+            height: 2px;
+            background: var(--text-color);
             transition: width 0.3s ease;
             z-index: 1001;
+            opacity: 0.3;
         }
         
         /* Mobile optimizations */
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
             .header {
-                padding: 10px 15px;
+                padding: 12px 15px;
             }
             
             .header-title {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
             
             .control-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 16px;
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
             
             .reader-container {
-                padding: 80px 15px 40px;
+                padding: 70px 20px 50px;
             }
             
             .article {
@@ -274,13 +264,20 @@
             }
             
             .article h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                margin-bottom: 30px;
             }
             
-            .font-size-controls {
-                bottom: 15px;
-                right: 15px;
-                padding: 8px;
+            .font-controls {
+                bottom: 20px;
+                right: 20px;
+                padding: 6px;
+            }
+            
+            .font-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
             }
         }
         
@@ -291,8 +288,8 @@
         
         /* Selection style */
         ::selection {
-            background: var(--accent-color);
-            color: white;
+            background: var(--hover-color);
+            color: var(--bg-color);
         }
     </style>
 </head>
@@ -302,23 +299,21 @@
     <header class="header">
         <a href="index.html" class="back-btn">
             <span>←</span>
-            返回
+            <span>返回</span>
         </a>
         <h1 class="header-title" id="headerTitle">加载中...</h1>
-        <div class="controls">
-            <button class="control-btn" id="themeToggle" title="切换主题">
-                <span id="themeIcon">☼</span>
-            </button>
-        </div>
+        <button class="control-btn" id="themeToggle" title="切换主题">
+            <span id="themeIcon">☾</span>
+        </button>
     </header>
     
     <main class="reader-container">
-        <div id="content" class="loading">正在加载小说内容</div>
+        <div id="content" class="loading">正在加载内容...</div>
     </main>
     
-    <div class="font-size-controls">
-        <button class="control-btn" id="fontDecrease" title="减小字体">A-</button>
-        <button class="control-btn" id="fontIncrease" title="增大字体">A+</button>
+    <div class="font-controls">
+        <button class="font-btn" id="fontDecrease" title="减小字体">A-</button>
+        <button class="font-btn" id="fontIncrease" title="增大字体">A+</button>
     </div>
     
     <script>
@@ -335,26 +330,32 @@
         const fontDecrease = document.getElementById('fontDecrease');
         const fontIncrease = document.getElementById('fontIncrease');
         
-        // Theme management
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.body.classList.toggle('light', savedTheme === 'light');
-        themeIcon.textContent = savedTheme === 'light' ? '☾' : '☼';
+        // Theme management - default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.classList.toggle('dark', savedTheme === 'dark');
+        themeIcon.textContent = savedTheme === 'dark' ? '☼' : '☾';
         
         themeToggle.addEventListener('click', () => {
-            const isLight = document.body.classList.toggle('light');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            themeIcon.textContent = isLight ? '☾' : '☼';
+            const isDark = document.body.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeIcon.textContent = isDark ? '☼' : '☾';
         });
         
         // Font size management
         let fontSize = parseInt(localStorage.getItem('fontSize') || '18');
-        document.querySelector('.article')?.style.setProperty('font-size', fontSize + 'px');
+        
+        function updateFontSize() {
+            const article = document.querySelector('.article');
+            if (article) {
+                article.style.fontSize = fontSize + 'px';
+            }
+        }
         
         fontDecrease.addEventListener('click', () => {
             if (fontSize > 14) {
                 fontSize -= 2;
                 localStorage.setItem('fontSize', fontSize);
-                document.querySelector('.article')?.style.setProperty('font-size', fontSize + 'px');
+                updateFontSize();
             }
         });
         
@@ -362,17 +363,19 @@
             if (fontSize < 24) {
                 fontSize += 2;
                 localStorage.setItem('fontSize', fontSize);
-                document.querySelector('.article')?.style.setProperty('font-size', fontSize + 'px');
+                updateFontSize();
             }
         });
         
         // Progress bar
-        window.addEventListener('scroll', () => {
+        function updateProgress() {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             const scrolled = (winScroll / height) * 100;
             progressBar.style.width = scrolled + '%';
-        });
+        }
+        
+        window.addEventListener('scroll', updateProgress);
         
         // Load novel content
         async function loadNovel() {
@@ -398,21 +401,17 @@
                 // Display content
                 contentEl.className = 'article';
                 contentEl.innerHTML = html;
-                contentEl.style.fontSize = fontSize + 'px';
+                updateFontSize();
                 
-                // Add smooth appearance
-                contentEl.style.opacity = '0';
-                setTimeout(() => {
-                    contentEl.style.transition = 'opacity 0.5s ease';
-                    contentEl.style.opacity = '1';
-                }, 100);
+                // Update progress after content loads
+                setTimeout(updateProgress, 100);
                 
             } catch (error) {
                 contentEl.className = 'error';
                 contentEl.innerHTML = `
                     <p>加载失败：${error.message}</p>
                     <p style="margin-top: 20px;">
-                        <a href="index.html" style="color: var(--accent-color);">返回首页</a>
+                        <a href="index.html" style="color: var(--light-text);">返回首页</a>
                     </p>
                 `;
             }
